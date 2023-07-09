@@ -44,6 +44,9 @@ TagManager:
   - name: Background
     uniqueID: 3567680737
     locked: 0
+  - name: Pits
+    uniqueID: 3466430625
+    locked: 0
   - name: Player
     uniqueID: 327775771
     locked: 0
