@@ -6,7 +6,6 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     public float playerSpeed;
-    private bool isMoving;
     private Vector2 input;
     private Vector2 movement;
     private Animator animator;
@@ -20,17 +19,22 @@ public class PlayerController : MonoBehaviour
     private void OnMovement(InputValue value)
     {
         movement = value.Get<Vector2>();
+        if (movement.x != 0 || movement.y != 0)
+        {
+            animator.SetFloat("moveX", movement.x);
+            animator.SetFloat("moveY", movement.y);
+            animator.SetBool("isWalking", true);
+        }
+        else
+        {
+            animator.SetBool("isWalking", false);
+        }
+        
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        animator.SetFloat("moveX", movement.x);
-        animator.SetFloat("moveY", movement.y);
-        isMoving = true;
-        animator.SetBool("isWalking", isMoving);
-        rb.MovePosition(rb.position + movement * Time.deltaTime * playerSpeed);
-        isMoving = false;
-        animator.SetBool("isWalking", isMoving);
+        rb.MovePosition(rb.position + movement * Time.fixedDeltaTime * playerSpeed);
     }
     
     private void OnCollisionEnter2D(Collision2D other)
