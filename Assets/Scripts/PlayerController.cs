@@ -10,6 +10,9 @@ public class PlayerController : MonoBehaviour
     private Vector2 movement;
     private Animator animator;
     private Rigidbody2D rb;
+    public Timer timer;
+    public EndDialog dialog;
+    
     private void Awake()
     {
         animator = GetComponent<Animator>();
@@ -37,8 +40,15 @@ public class PlayerController : MonoBehaviour
         rb.MovePosition(rb.position + movement * Time.fixedDeltaTime * playerSpeed);
     }
     
-    private void OnCollisionEnter2D(Collision2D other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("hit by enemy");
+        Debug.Log($"hit by enemy, timer: {timer.currentTime}");
+        dialog.gameObject.SetActive(true);
+        dialog.tryAgain.onClick.AddListener(TryAgainClicked);
+    }
+    
+    private void TryAgainClicked(){
+        dialog.gameObject.SetActive(false);
+    
     }
 }
