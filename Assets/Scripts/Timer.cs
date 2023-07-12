@@ -11,17 +11,16 @@ public class Timer : MonoBehaviour
     [Header("Timer Settings")] 
     public float currentTime;
     public bool countDown;
+    public bool running;
     
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void Update()
     {
-        currentTime = countDown ? currentTime -= Time.deltaTime : currentTime += Time.deltaTime;
-        timerText.text = currentTime.ToString("0");
+        if (running)
+        {
+            currentTime = countDown ? currentTime -= Time.deltaTime : currentTime += Time.deltaTime;
+            timerText.text = currentTime.ToString("0");
+        }
     }
 }

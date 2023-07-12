@@ -44,6 +44,7 @@ public class PlayerController : MonoBehaviour
     
     private void OnTriggerEnter2D(Collider2D other)
     {
+        timer.running = false;
         Debug.Log($"hit by enemy, timer: {timer.currentTime}");
         dialog.gameObject.SetActive(true);
         dialog.tryAgain.onClick.AddListener(TryAgainClicked);
@@ -52,7 +53,9 @@ public class PlayerController : MonoBehaviour
     private void TryAgainClicked()
     {
         rb.position = new Vector2(38, 4);
-        dialog.gameObject.SetActive(false);
         enemy.GameObject().gameObject.transform.position = new Vector3(22, -1);
+        timer.currentTime = 0;
+        timer.running = true;
+        dialog.gameObject.SetActive(false);
     }
 }
