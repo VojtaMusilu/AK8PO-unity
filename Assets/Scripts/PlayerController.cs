@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Object = UnityEngine.Object;
 
 public class PlayerController : MonoBehaviour
 {
@@ -12,7 +14,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     public Timer timer;
     public EndDialog dialog;
-    
+    public Object enemy;
     private void Awake()
     {
         animator = GetComponent<Animator>();
@@ -47,8 +49,10 @@ public class PlayerController : MonoBehaviour
         dialog.tryAgain.onClick.AddListener(TryAgainClicked);
     }
     
-    private void TryAgainClicked(){
+    private void TryAgainClicked()
+    {
+        rb.position = new Vector2(38, 4);
         dialog.gameObject.SetActive(false);
-    
+        enemy.GameObject().gameObject.transform.position = new Vector3(22, -1);
     }
 }
