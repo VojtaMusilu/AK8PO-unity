@@ -8,4 +8,6 @@ public class EndDialog : MonoBehaviour
 {
    public Button tryAgain;
    public TextMeshProUGUI messageText;
+   public Button submitButton;
+   public InputField playerNameInput;
 }

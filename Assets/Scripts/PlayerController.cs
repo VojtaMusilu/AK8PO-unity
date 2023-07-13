@@ -4,6 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Object = UnityEngine.Object;
+using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
@@ -15,10 +16,14 @@ public class PlayerController : MonoBehaviour
     public Timer timer;
     public EndDialog dialog;
     public Object enemy;
+    [SerializeField] string playerName;
+    [SerializeField] HighScoreHandler highScoreHandler;
     private void Awake()
     {
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
+        timer.running = true;
+        
     }
 
     private void OnMovement(InputValue value)
@@ -48,6 +53,9 @@ public class PlayerController : MonoBehaviour
         Debug.Log($"hit by enemy, timer: {timer.currentTime}");
         dialog.gameObject.SetActive(true);
         dialog.tryAgain.onClick.AddListener(TryAgainClicked);
+        dialog.submitButton.onClick.AddListener(SubmitClicked);
+        
+        
     }
     
     private void TryAgainClicked()
@@ -56,6 +64,14 @@ public class PlayerController : MonoBehaviour
         enemy.GameObject().gameObject.transform.position = new Vector3(22, -1);
         timer.currentTime = 0;
         timer.running = true;
-        dialog.gameObject.SetActive(false);
+	dialog.gameObject.SetActive(false);
     }
+
+	private void SubmitClicked()
+	{
+dialog.submitButton.onClick.RemoveListener(SubmitClicked);
+		highScoreHandler.AddHighScore(new HighScoreElement(dialog.playerNameInput.text, timer.currentTime.ConvertTo<int>()));
+
+		
+	}
 }
