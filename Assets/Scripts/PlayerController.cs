@@ -16,14 +16,14 @@ public class PlayerController : MonoBehaviour
     public Timer timer;
     public EndDialog dialog;
     public Object enemy;
-    [SerializeField] string playerName;
     [SerializeField] HighScoreHandler highScoreHandler;
+    private PlayerInput playerInput;
     private void Awake()
     {
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
+        playerInput = GetComponent<PlayerInput>();
         timer.running = true;
-        
     }
 
     private void OnMovement(InputValue value)
@@ -50,6 +50,7 @@ public class PlayerController : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         timer.running = false;
+        playerInput.DeactivateInput();
         Debug.Log($"hit by enemy, timer: {timer.currentTime}");
         dialog.gameObject.SetActive(true);
         dialog.tryAgain.onClick.AddListener(TryAgainClicked);
@@ -62,6 +63,7 @@ public class PlayerController : MonoBehaviour
     {
         rb.position = new Vector2(38, 4);
         enemy.GameObject().gameObject.transform.position = new Vector3(22, -1);
+        playerInput.ActivateInput();
         timer.currentTime = 0;
         timer.running = true;
 	dialog.gameObject.SetActive(false);
